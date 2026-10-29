@@ -1,0 +1,7 @@
+{
+  "name": "Guru iCare",
+  "description": "Teacher wellbeing support platform featuring Cara.ai, practical workload triage, grounding exercises, and support pathways.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+

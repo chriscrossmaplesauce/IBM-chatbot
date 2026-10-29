@@ -1,0 +1,91 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --color-warm-cream: #F7F5EF;
+    --color-sage: #58715B;
+    --color-sage-hover: #485e4b;
+    --color-pale-sage: #E9EEE5;
+    --color-pale-sage-light: #F2F5F0;
+    --color-dark-forest: #293A30;
+    --color-muted-grey: #687168;
+    --color-coral: #E07A5F;
+  }
+
+  body {
+    background-color: #F7F5EF;
+    color: #293A30;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+/* Custom utility classes reflecting the design system tokens */
+.bg-warm-cream {
+  background-color: #F7F5EF;
+}
+
+.bg-sage {
+  background-color: #58715B;
+}
+
+.bg-sage-hover:hover {
+  background-color: #485e4b;
+}
+
+.bg-pale-sage {
+  background-color: #E9EEE5;
+}
+
+.bg-pale-sage-light {
+  background-color: #F4F7F2;
+}
+
+.text-dark-forest {
+  color: #293A30;
+}
+
+.text-sage {
+  color: #58715B;
+}
+
+.text-muted-grey {
+  color: #687168;
+}
+
+.text-coral {
+  color: #E07A5F;
+}
+
+.border-pale-sage {
+  border-color: #DDE5D9;
+}
+
+.border-sage {
+  border-color: #58715B;
+}
+
+/* Calm smooth transitions */
+* {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}

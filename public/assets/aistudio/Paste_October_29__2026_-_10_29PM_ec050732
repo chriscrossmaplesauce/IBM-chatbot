@@ -1,0 +1,788 @@
+# MASTER APP-BUILDING PROMPT: GURU ICARE
+
+## 1. Project Overview
+
+Build a polished, responsive web application called **Guru iCare**, a teacher wellbeing support platform designed for public elementary and secondary school teachers.
+
+The platform features an AI wellbeing support chatbot named **Cara.ai**, which helps teachers manage everyday work-related stress and emotional overwhelm through empathetic conversation, evidence-informed self-help tools, practical workload strategies, wellbeing learning modules and pathways to professional support.
+
+**Platform name:** Guru iCare  
+**AI chatbot:** Cara.ai  
+**Tagline:** Teacher wellbeing, one step at a time.
+
+**Core design principle:** Cara.ai is the guide; Guru iCare provides the resources and support pathways.
+
+The application should feel like a calm, welcoming, private space where teachers can pause, feel heard and take one manageable next step. It should not feel like a hospital portal, a clinical mental health assessment, a corporate productivity dashboard or a generic AI chatbot.
+
+Build an interactive application with real navigation, meaningful buttons, working exercises, persistent demo data where appropriate, and clear feedback after user actions. Do not create a static landing page or a collection of disconnected mockup screens.
+
+## 2. Target Users
+
+The primary users are public school teachers working in elementary and secondary schools.
+
+They may experience:
+- Heavy marking and assessment workloads.
+- Lesson planning and preparation pressures.
+- Classroom management difficulties.
+- Demanding parent interactions.
+- Administrative responsibilities and paperwork.
+- Exam-period stress.
+- Emotional exhaustion and difficulty concentrating.
+- Guilt about unfinished work.
+- Difficulty setting work-life boundaries.
+- Pressure to meet professional expectations while managing personal responsibilities.
+
+Assume users have limited time and may access the platform during a break, after school or at home.
+
+Design for short interactions, minimal cognitive load, plain language, mobile accessibility and users who may be emotionally overwhelmed.
+
+## 3. Visual Design System
+
+Use the following exact colour palette throughout the application.
+
+| Design token | Hex colour | Purpose |
+|---|---|---|
+| Warm cream | #F7F5EF | Main background |
+| Sage green | #58715B | Primary buttons, active navigation, icons and interactive elements |
+| Pale sage | #E9EEE5 | Highlight cards, gentle emphasis and selected states |
+| Dark forest | #293A30 | Headings and important text |
+| Muted grey | #687168 | Supporting text, descriptions and secondary labels |
+| White | #FFFFFF | Cards, navigation bars, input fields and content panels |
+
+### Visual style
+
+Create a modern, gentle, nature-inspired interface.
+
+- Use warm cream as the main page background.
+- Use white cards with subtle borders and soft shadows.
+- Use pale sage for welcome panels, exercise cards and highlighted recommendations.
+- Use sage green for primary actions, active navigation and meaningful icons.
+- Use dark forest green for headings.
+- Use muted grey for secondary descriptions.
+- Use rounded cards, approximately 14–20px corner radii.
+- Use generous spacing and comfortable padding.
+- Use a clean sans-serif typeface such as Inter, DM Sans or a similar accessible font.
+- Use simple, consistent line icons.
+- Use subtle transitions and restrained animation.
+- Avoid excessive gradients, neon colours, glassmorphism, clutter, gamification-heavy graphics and overly decorative illustrations.
+- Avoid a childish appearance. The audience consists of adult professionals.
+- Avoid a clinical or overly corporate aesthetic.
+
+The overall atmosphere should communicate calm, warmth, dignity, trust and practical support.
+
+### Branding
+
+Create a simple text-and-icon logo for Guru iCare. Use a subtle sprout, leaf or caring-hands motif integrated with a clean wordmark.
+
+Create a separate, friendly visual identity for Cara.ai, using a simple chat bubble combined with a heart or gentle leaf motif.
+
+Cara.ai should look approachable without being represented as a human therapist or medical professional.
+
+## 4. Application Navigation
+
+Use a persistent bottom navigation bar on mobile and a suitable persistent navigation layout on desktop.
+
+Include five destinations in this order:
+
+1. Home
+2. Cara.ai
+3. Tools
+4. Get Support
+5. My Wellbeing
+
+Use the following icons:
+- Home: house
+- Cara.ai: message-circle-heart
+- Tools: compass
+- Get Support: hand-heart
+- My Wellbeing: chart or heart-pulse
+
+Show a clear active state using sage green. Use icons with readable text labels; never rely on icons alone.
+
+On mobile, keep the bottom navigation compact, fixed and accessible. Ensure it does not overlap the content or keyboard. On desktop, adapt the layout with a sidebar or another suitable navigation arrangement.
+
+Add a settings icon at the top-right of the Home screen.
+
+## 5. Home Screen
+
+The Home screen is the primary entry point. It should make three actions immediately obvious:
+
+1. Check in with Cara.ai.
+2. View mood history.
+3. Access immediate wellbeing support.
+
+### A. Header
+
+Display the Guru iCare logo and name on the left.
+
+Display a settings icon on the right.
+
+### B. Cara.ai welcome and check-in card
+
+Create a prominent pale-sage welcome card near the top of the screen.
+
+Include a circular Cara.ai icon or avatar.
+
+Display the greeting:
+
+**Hello, Cikgu!**
+
+“I'm Cara.ai. I'm here to listen and help you find a manageable next step.”
+
+Use “Cikgu” as the default form of address. Allow the user to customise their preferred name in settings.
+
+Display the main question:
+
+**How are you feeling today?**
+
+Supporting text:
+
+“Take a moment for yourself. There is no right or wrong answer.”
+
+Provide five selectable mood options:
+
+- Low — 😞
+- Stressed — 😟
+- Okay — 😐
+- Good — 🙂
+- Great — 😄
+
+Each mood option should be an accessible, selectable card with a clear selected state.
+
+Below the mood selector, add a prominent primary button:
+
+**Start my check-in →**
+
+When the user selects a mood and clicks the button:
+- Open the Cara.ai conversation screen.
+- Pass the selected mood into the conversation.
+- Start with an empathetic acknowledgement.
+- Ask one relevant follow-up question.
+- Offer appropriate next steps based on the user's response.
+
+Do not require a mood selection before allowing the user to open Cara.ai directly.
+
+### C. My Mood Tracker card
+
+Place a distinct white card directly below the check-in card.
+
+Heading: **My mood tracker**
+
+Description: “Your check-ins, your patterns, your pace.”
+
+Display a compact preview of recent mood entries using small mood icons or a seven-day overview. Show actual saved entries when available.
+
+Include a clearly visible button:
+
+**View mood history →**
+
+This button must open the Mood History screen inside My Wellbeing.
+
+If no entries exist, show an encouraging empty state:
+
+“Your mood history will appear here when you choose to check in. You can start whenever you're ready.”
+
+Never invent mood entries or display fabricated personal trends as real user data.
+
+### D. Quick Support shortcuts
+
+Add a section titled:
+
+**What would help right now?**
+
+Display two cards:
+
+**Quick reset**
+- Description: “Try a short calming exercise.”
+- Icon: wind.
+- Action: Open the wellbeing tools library, with breathing exercises highlighted.
+
+**Talk to Cara.ai**
+- Description: “Work through what's happening.”
+- Icon: message-circle-heart.
+- Action: Open the chatbot.
+
+Add a smaller professional support link:
+
+“Need to talk to someone? Explore support →”
+
+This opens Get Support.
+
+## 6. Cara.ai — AI Support
+
+This is the core of the platform.
+
+Build a guided conversational interface rather than a generic chat window.
+
+### A. Chat interface
+
+At the top, display:
+- Cara.ai icon.
+- Name: Cara.ai.
+- Subtitle: “Your Support Guide”.
+- A small label: “AI support, not therapy”.
+- An accessible option to view privacy and safety information.
+
+Use readable chat bubbles:
+- Cara.ai messages on the left.
+- Teacher messages on the right.
+- Suggested responses as selectable chips or cards.
+
+Include a message input at the bottom, a send button and appropriate loading and error states.
+
+The interface should be uncluttered, with enough spacing to make messages easy to read.
+
+### B. Initial conversation
+
+Use the following as the initial example conversation:
+
+Cara.ai:
+
+“It sounds like you've had a demanding day. What's been the hardest part?”
+
+Teacher:
+
+“I have so much marking to finish, and I still need to prepare tomorrow's lessons.”
+
+Cara.ai:
+
+“That sounds exhausting, especially when both tasks feel urgent. We don't have to solve everything at once.”
+
+Cara.ai then asks:
+
+**What feels heaviest right now?**
+
+Offer these suggested responses:
+
+1. “There's too much work for the time I have.”
+2. “I'm worried my lessons won't be good enough.”
+3. “I feel guilty leaving work unfinished.”
+4. “I'm too mentally exhausted to focus.”
+5. “Something else.”
+
+These options must be interactive, not decorative.
+
+### C. Adaptive response behaviour
+
+Implement a branching demonstration conversation with context-sensitive responses.
+
+If the teacher selects “There's too much work for the time I have”:
+- Acknowledge the pressure.
+- Ask what must genuinely be completed today.
+- Offer the Workload Triage tool.
+- Suggest separating urgent tasks from tasks that can wait.
+- Provide an option to open the workload-planning activity.
+
+If the teacher selects “I'm worried my lessons won't be good enough”:
+- Acknowledge the pressure to prepare good lessons.
+- Help distinguish essential learning objectives from optional improvements.
+- Offer a practical lesson-planning prioritisation activity.
+- Avoid dismissing legitimate professional responsibilities.
+
+If the teacher selects “I feel guilty leaving work unfinished”:
+- Acknowledge the guilt without judgement.
+- Invite the teacher to consider realistic expectations and boundaries.
+- Offer a reflection prompt about what can reasonably wait.
+- Provide an optional link to a relevant work-life boundaries module.
+
+If the teacher selects “I'm too mentally exhausted to focus”:
+- Acknowledge the exhaustion.
+- Avoid immediately assigning more planning work.
+- Offer a short breathing, sensory grounding or relaxation exercise.
+- Allow the teacher to pause the conversation or explore professional support.
+
+If the teacher selects “Something else”:
+- Invite them to explain in their own words.
+- Respond supportively and ask one appropriate follow-up question.
+
+### D. Conversation design rules
+
+Cara.ai must:
+- Use a supportive, empathetic, non-judgmental tone.
+- Ask one question at a time.
+- Use concise responses and avoid overwhelming the user.
+- Reflect the user's situation before suggesting solutions.
+- Offer practical, manageable next steps.
+- Allow users to decline a suggestion or choose another option.
+- Adapt its recommendations to the conversation.
+- Offer relevant tools, modules, reflection prompts and professional support.
+- Avoid repeating generic advice regardless of context.
+- Avoid implying that all work stress can be solved through individual coping strategies.
+
+Where appropriate, provide direct action buttons such as:
+- Try this exercise.
+- Open workload triage.
+- Explore a module.
+- Continue talking.
+- Find professional support.
+
+The user must be able to open a recommended tool directly from the conversation and return to Cara.ai afterward.
+
+### E. AI integration
+
+If an actual language-model API is configured, use it to generate context-aware responses subject to the safety and behavioural rules in this prompt.
+
+If no API is available, implement a functional branching demo conversation using predefined responses and selectable options.
+
+Do not pretend that a static demo is a live AI chatbot. Make the demo's limitations clear to the developer and provide a clean integration point for a future AI backend.
+
+Do not expose API keys in frontend code. Use a secure backend for any live AI integration.
+
+## 7. Tools Screen
+
+Create a landing page titled:
+
+**Tools for Your Wellbeing**
+
+Subtitle:
+
+“Small, practical steps to help you manage stress, restore focus and build skills over time.”
+
+Organise the content into exactly three main sections.
+
+### Section 1: Wellbeing Tools
+
+Subtitle: “Evidence-informed strategies for the moment you're in.”
+
+Display four individual tool cards.
+
+#### Tool A: Guided Breathing
+
+Include two built-in guided exercises.
+
+**Box Breathing**
+- Use a visual breathing guide.
+- Guide the user through inhaling, holding, exhaling and pausing in a comfortable, even rhythm.
+- Provide configurable timing and a skip option.
+- Include a visual animation, progress indicator and start/pause/stop controls.
+
+**4-7-8 Breathing**
+- Guide users through inhaling for 4 counts, holding for 7 and exhaling for 8, if comfortable.
+- Explain that users should not force their breath or continue if they feel dizzy or uncomfortable.
+- Offer a gentler alternative without breath-holding.
+- Include start, pause and stop controls.
+
+Do not autoplay exercises or force users to complete a fixed number of rounds.
+
+#### Tool B: Sensory Reset — 5-4-3-2-1
+
+Create a guided, interactive grounding exercise.
+
+Guide the user through:
+- 5 things they can see.
+- 4 things they can feel.
+- 3 things they can hear.
+- 2 things they can smell.
+- 1 thing they can taste.
+
+Allow the user to move through the steps individually, skip any step and finish whenever they wish.
+
+Use calming visuals and short, clear instructions.
+
+#### Tool C: Thought Reframe
+
+Create a structured, CBT-inspired reflection exercise. Do not present it as therapy or as a substitute for professional treatment.
+
+Guide the user through these prompts:
+
+1. What situation is troubling you?
+2. What thought or worry came up?
+3. What emotions are you experiencing?
+4. What facts support or challenge that thought?
+5. Is there another balanced way to view the situation?
+6. What is one helpful next step?
+
+Use optional text fields and a progress indicator.
+
+Explain that the goal is not to force positive thinking or invalidate genuine problems.
+
+Allow users to skip questions and choose whether to save their reflection.
+
+#### Tool D: Progressive Muscle Relaxation
+
+Create a guided relaxation exercise that leads the user through gentle muscle tensing and releasing.
+
+Include:
+- Clear instructions.
+- Start, pause, resume and stop controls.
+- A visual progress indicator.
+- An option to skip areas.
+- A relaxation-only alternative for users who do not wish to tense their muscles.
+
+Tell users not to tense painful or injured areas and to stop if discomfort occurs.
+
+### Section 2: Workload Triage
+
+Title: **Workload Triage**
+
+Subtitle: “Make your workload more manageable, one decision at a time.”
+
+Introduce the **80% rule** as a practical workload-management heuristic: aim for work that is fit for purpose rather than automatically pursuing perfection on every task.
+
+Do not describe 80% as a scientifically established universal threshold.
+
+Build an interactive workload triage activity.
+
+Step 1: Ask the teacher to list tasks they are worried about.
+
+Step 2: Help categorise each task:
+- Must be done today.
+- Important, but can wait.
+- Can be simplified.
+- Can be postponed, delegated or renegotiated where appropriate.
+
+Step 3: Invite the teacher to consider:
+- What is the actual deadline?
+- What is essential for students' learning or safety?
+- What is good enough for the intended purpose?
+- What can be shortened without compromising an important responsibility?
+
+Step 4: Produce a simple action plan with:
+- First task.
+- Next manageable action.
+- What can wait.
+- Optional break or recovery period.
+
+Use realistic, teacher-relevant examples, such as marking, lesson preparation, parent communication and administrative paperwork.
+
+Allow users to edit their tasks and reset the exercise. Save their plan only with their consent.
+
+### Section 3: Wellbeing Modules
+
+Title: **Learn and Build Your Skills**
+
+Subtitle: “Explore short learning experiences to support your wellbeing over time.”
+
+Create a browsable module library with cards for:
+- Mindfulness.
+- Stress management.
+- Emotional regulation.
+- Gratitude.
+- Resilience and coping.
+- Sleep and recovery.
+- Work-life boundaries.
+
+Each card should support:
+- Module title.
+- Brief description.
+- Estimated duration, where known.
+- Learning objectives, when available.
+- Start or continue button.
+- Completion status, when tracked.
+
+Use placeholder descriptions clearly labelled as draft content until evidence-informed material and sources have been added.
+
+Create a configuration structure for future module links and content. Do not invent external resource URLs.
+
+Allow Cara.ai to recommend a module based on the teacher's stated needs.
+
+## 8. Get Support Screen
+
+Create a dedicated screen titled:
+
+**You Don't Have to Handle Everything Alone**
+
+Subtitle:
+
+“Explore support options that fit your situation.”
+
+Provide three clearly differentiated sections.
+
+### A. Message a Professional
+
+Create a prominent card for a secure, anonymous professional messaging service.
+
+Include:
+- A clear description of the intended service.
+- A button to start a message or enter the messaging service.
+- A clear statement of whether the service is available now or has limited hours, once configured.
+- Information about expected response times.
+- An explanation of confidentiality and its limits.
+- A notice explaining whether messages are reviewed and by whom, once the service is implemented.
+
+Build the interface so it can later connect to a verified professional messaging backend.
+
+Until that integration exists, show an honest demo or setup state. Do not simulate a real professional response, claim that a qualified professional is online, or imply that a message has been delivered.
+
+Anonymous messaging must not require unnecessary personal information. If true anonymity cannot be guaranteed by the selected service, disclose this clearly.
+
+### B. Find Professional Support
+
+Create a directory-style interface for verified services, such as:
+- School or employer wellbeing services.
+- Counselling and mental health professionals.
+- Employee assistance programmes, where available.
+- Appropriate local support organisations.
+
+Use configurable resource records containing service name, description, eligibility, contact details, location or jurisdiction, availability and verified links.
+
+Do not invent service names, contact details or URLs. Until real resources are supplied, use clearly labelled placeholders.
+
+### C. Urgent and Crisis Support
+
+Provide a visually distinct, easy-to-find route for people who may be in immediate danger or experiencing severe distress.
+
+Explain that Cara.ai is not an emergency service and that professional messaging may not be monitored continuously.
+
+When a user appears to be at immediate risk, prioritise immediate human support and verified crisis or emergency resources appropriate to their location.
+
+Do not rely solely on an automated mood score or a single keyword to determine risk.
+
+## 9. My Wellbeing Screen
+
+Create a personal dashboard titled:
+
+**My Wellbeing**
+
+Subtitle:
+
+“A space to check in, reflect and notice what helps you.”
+
+Organise the screen into four sections.
+
+### A. Mood History
+
+Provide:
+- A mood calendar.
+- Daily mood entries.
+- A weekly overview.
+- A monthly overview.
+- Optional notes associated with a check-in.
+- Filters for reviewing previous entries.
+
+Show only real saved entries. If there is no data, provide a helpful empty state.
+
+Do not turn moods into a clinical score or label users as mentally healthy or unhealthy.
+
+Any charts must be descriptive and must not imply that mood patterns establish a diagnosis.
+
+### B. Reflect & Journal
+
+Provide optional reflection prompts such as:
+- What felt most demanding today?
+- What went better than expected?
+- What is one thing you handled well?
+- What is outside my control right now?
+- What can reasonably wait until tomorrow?
+- What would I say to a colleague facing the same situation?
+
+Allow users to create, edit and delete their journal entries.
+
+Make saving optional. Clearly distinguish private journal entries from information shared with Cara.ai.
+
+### C. Check-in Streaks and Gentle Progress
+
+Display:
+- Current check-in streak, if available.
+- Number of check-ins completed.
+- Optional activities completed.
+- Modules completed.
+- Personal coping strategies saved as helpful.
+
+Do not reward users for reporting negative emotions or imply that a longer streak means better mental health.
+
+Avoid guilt-inducing notifications and streak-loss warnings. Encourage returning whenever the teacher feels ready.
+
+### D. My Preferences
+
+Provide controls for:
+- Preferred name or form of address.
+- Reminder preferences.
+- Saved strategies.
+- Privacy and data settings.
+- Data export or deletion, where supported.
+
+Allow users to opt out of reminders and tracking features.
+
+## 10. Settings
+
+Provide a settings screen accessible from the Home header.
+
+Include:
+- Profile and preferred name.
+- Notification preferences.
+- Privacy information.
+- Data and journal controls.
+- Accessibility preferences.
+- About Guru iCare.
+- Information about Cara.ai's capabilities and limitations.
+
+Do not request sensitive personal information that is not necessary for the service.
+
+## 11. Personalisation and Connections Between Features
+
+The application should behave as one connected platform.
+
+Examples:
+
+- A teacher who reports feeling overwhelmed by marking can be offered Workload Triage.
+- A teacher who reports difficulty focusing can be offered a short grounding exercise.
+- A teacher who describes recurring worry about lesson quality can be offered Thought Reframe and a relevant module.
+- A teacher who wants to reflect can be directed to My Wellbeing.
+- A teacher who requests human assistance can be directed to Get Support.
+- A teacher who completes an exercise may optionally record whether it was helpful.
+
+Use user consent to determine what is saved in mood history, journals and activity records.
+
+If the AI backend is not available, demonstrate these connections using deterministic branching logic.
+
+Do not claim to infer a person's mental health condition from check-ins, conversations or activity patterns.
+
+## 12. Privacy, Safety and Responsible AI
+
+The platform must not:
+- Diagnose mental health conditions.
+- Claim to be a therapist, counsellor or doctor.
+- Replace professional care.
+- Guarantee that an exercise will reduce stress.
+- Shame users for feeling overwhelmed.
+- Treat every problem as an individual resilience problem.
+- Make false promises about anonymity or confidentiality.
+- Claim that professional support has been contacted when it has not.
+
+It should:
+- Respond empathetically to expressions of distress.
+- Recognise possible indications of severe distress or self-harm.
+- Prioritise appropriate human and crisis support when needed.
+- Explain the limitations of the AI.
+- Collect the minimum necessary information.
+- Make saving and tracking transparent and optional.
+- Avoid unnecessary retention of sensitive conversation data.
+- Provide clear privacy information and controls.
+
+Use appropriate safeguards for crisis-related conversations. The AI must not respond to a potential emergency with a routine breathing exercise as its only recommendation.
+
+Do not use a mood check-in or streak as a substitute for a proper safety response.
+
+## 13. Accessibility and Responsive Design
+
+Implement the following:
+- Semantic headings and landmarks.
+- Keyboard navigation.
+- Visible focus indicators.
+- Accessible labels for every form field and icon-only control.
+- Sufficient text and control contrast.
+- Screen-reader-friendly mood selectors.
+- Reduced-motion support.
+- Readable text sizes.
+- Large, touch-friendly controls.
+- Clear validation and error messages.
+- Responsive layouts for desktop, tablet and mobile.
+
+Do not use colour alone to communicate mood, selection, errors or completion.
+
+## 14. Technical and Functional Requirements
+
+Build a functional frontend with a maintainable structure and reusable components.
+
+Use a suitable modern web stack supported by the app-building environment. Prefer TypeScript and a component-based framework if supported.
+
+Implement:
+- Real navigation between all five main sections.
+- Working mood selection and check-in flows.
+- A functional demo conversation with branching logic.
+- Interactive breathing exercises.
+- Interactive sensory grounding.
+- A guided Thought Reframe activity.
+- Progressive Muscle Relaxation controls.
+- An interactive workload triage planner.
+- Module cards and configurable module links.
+- Mood history and journal interfaces.
+- Check-in streak calculations based on actual saved demo entries.
+- Settings and privacy information screens.
+- Appropriate loading, empty, success and error states.
+
+Persist demo data across reloads where practical. Use a suitable storage mechanism and clearly identify demo storage versus production-grade storage.
+
+Do not store sensitive journal entries or health-related information in insecure storage in a production deployment. Use appropriate authentication, access control, encryption and data retention controls when implementing a real backend.
+
+Do not expose secrets or API keys in client-side code.
+
+For future integrations, provide clear extension points for:
+- A language-model API.
+- A secure backend.
+- Verified professional support resources.
+- Secure anonymous messaging.
+- Learning module content and links.
+- Optional analytics and progress tracking.
+
+Do not build fake integrations that appear to contact real services.
+
+## 15. Suggested Component Structure
+
+Organise the code into reusable components such as:
+
+- AppShell
+- BottomNavigation
+- GuruICareLogo
+- CaraAvatar
+- HomeCheckInCard
+- MoodSelector
+- MoodTrackerPreview
+- ChatMessage
+- SuggestedResponse
+- ChatComposer
+- BreathingExercise
+- GroundingExercise
+- ThoughtReframeWizard
+- MuscleRelaxationGuide
+- WorkloadTriagePlanner
+- ModuleCard
+- MoodHistory
+- MoodCalendar
+- JournalEditor
+- CheckInStreakCard
+- ProfessionalSupportCard
+- CrisisSupportPanel
+- SettingsPanel
+
+Use shared colour tokens, spacing, typography and button styles to maintain consistency.
+
+## 16. Acceptance Criteria
+
+The application is complete as an initial prototype when:
+
+1. All five navigation destinations work.
+2. The Home screen clearly distinguishes Start my check-in from View mood history.
+3. A selected mood is passed into the demo Cara.ai conversation.
+4. Cara.ai offers different next steps based on the selected response.
+5. Recommended tools can be opened directly from the conversation.
+6. All four wellbeing tools have functional guided interactions.
+7. Workload Triage produces an editable, actionable plan.
+8. The module library has distinct cards and configurable links.
+9. My Wellbeing displays actual demo entries or an honest empty state.
+10. Journal entries can be created, edited and deleted within the supported storage model.
+11. Get Support distinguishes professional messaging, general professional resources and urgent crisis support.
+12. Unimplemented integrations are clearly labelled and do not falsely claim to provide real services.
+13. The interface follows the exact colour palette and feels calm, consistent and professional.
+14. The application is responsive, keyboard-accessible and usable on mobile.
+15. The app does not diagnose users or present Cara.ai as a replacement for professional help.
+
+## 17. Build Priority
+
+Build in this order:
+
+**Phase 1 — Core interactive prototype**
+- Shared design system and navigation.
+- Home screen and mood check-in.
+- Cara.ai branching conversation.
+- At least one fully functional wellbeing exercise.
+- Workload Triage.
+- My Wellbeing with mood history and journal.
+- Get Support with clearly labelled demo states.
+
+**Phase 2 — Complete the experience**
+- Remaining wellbeing exercises.
+- Module library.
+- Streaks and activity history.
+- Settings and privacy controls.
+- Responsive and accessibility refinements.
+
+**Phase 3 — Production integrations**
+- Live AI backend and safety controls.
+- Secure data storage and authentication, if required.
+- Verified professional support directory.
+- Secure professional messaging.
+- Real module content and source references.
+
+Start by implementing the complete Phase 1 experience. Prioritise working interactions, consistent design and a coherent user journey over decorative effects. Make reasonable implementation decisions without removing or renaming the specified core features.
