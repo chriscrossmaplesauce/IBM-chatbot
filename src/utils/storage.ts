@@ -1,4 +1,4 @@
-import { MoodEntry, JournalEntry, UserSettings, TriagePlan, WellbeingModule } from '../types';
+import { MoodEntry, MoodType, JournalEntry, UserSettings, TriagePlan, WellbeingModule } from '../types';
 
 const STORAGE_KEYS = {
   MOODS: 'guru_icare_moods',
@@ -21,37 +21,37 @@ export const DEFAULT_SETTINGS: UserSettings = {
   ],
 };
 
-// Friendly initial sample data (so the teacher sees how the chart & tracker work)
-export const INITIAL_MOOD_ENTRIES: MoodEntry[] = [
-  {
-    id: 'm-1',
-    mood: 'okay',
-    note: 'Standard Monday staff meeting, managed to finish lesson prep early.',
-    timestamp: Date.now() - 4 * 24 * 60 * 60 * 1000,
-    dateStr: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-  },
-  {
-    id: 'm-2',
-    mood: 'stressed',
-    note: 'Marking 40 Year 8 essays before mid-term cutoff.',
-    timestamp: Date.now() - 3 * 24 * 60 * 60 * 1000,
-    dateStr: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-  },
-  {
-    id: 'm-3',
-    mood: 'good',
-    note: 'Classroom science experiment went smoothly! Kids were engaged.',
-    timestamp: Date.now() - 2 * 24 * 60 * 60 * 1000,
-    dateStr: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-  },
-  {
-    id: 'm-4',
-    mood: 'stressed',
-    note: 'Heavy paperwork day, left school feeling quite tired.',
-    timestamp: Date.now() - 1 * 24 * 60 * 60 * 1000,
-    dateStr: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-  },
+// Friendly initial sample data spanning the past 30 days so the 30-day trend chart is rich
+const teacherNotes = [
+  { dayOffset: 29, mood: 'okay', note: 'Start of term staff briefing and curriculum setup.' },
+  { dayOffset: 27, mood: 'good', note: 'Welcomed students back; classroom icebreakers went well.' },
+  { dayOffset: 25, mood: 'good', note: 'Interactive science lesson on plant biology.' },
+  { dayOffset: 23, mood: 'stressed', note: 'Double period with energetic Year 7 class, feeling tired.' },
+  { dayOffset: 21, mood: 'okay', note: 'Steady Thursday, completed lesson slides early.' },
+  { dayOffset: 19, mood: 'great', note: 'Friday assembly was inspiring. Ready for weekend.' },
+  { dayOffset: 16, mood: 'okay', note: 'Caught up on lesson plans over Sunday evening.' },
+  { dayOffset: 14, mood: 'stressed', note: 'Parent inquiry regarding math midterm assessment.' },
+  { dayOffset: 12, mood: 'low', note: 'Very heavy administrative paperwork deadline.' },
+  { dayOffset: 10, mood: 'okay', note: 'Used 4-7-8 breathing before difficult parent call.' },
+  { dayOffset: 8, mood: 'good', note: 'Students had a breakthrough on algebra problem.' },
+  { dayOffset: 6, mood: 'okay', note: 'Standard staff meeting, managed to finish on time.' },
+  { dayOffset: 4, mood: 'stressed', note: 'Marking 40 Year 8 essays before mid-term cutoff.' },
+  { dayOffset: 3, mood: 'stressed', note: 'Late afternoon grading marathon at school.' },
+  { dayOffset: 2, mood: 'good', note: 'Classroom science experiment went smoothly! Kids were engaged.' },
+  { dayOffset: 1, mood: 'okay', note: 'Applied 80% rule to homework review. Left on time.' },
+  { dayOffset: 0, mood: 'good', note: 'Morning check-in with Cara; feeling grounded.' },
 ];
+
+export const INITIAL_MOOD_ENTRIES: MoodEntry[] = teacherNotes.map((item, idx) => {
+  const ts = Date.now() - item.dayOffset * 24 * 60 * 60 * 1000;
+  return {
+    id: `m-init-${idx + 1}`,
+    mood: item.mood as MoodType,
+    note: item.note,
+    timestamp: ts,
+    dateStr: new Date(ts).toISOString().split('T')[0],
+  };
+});
 
 export const INITIAL_JOURNAL_ENTRIES: JournalEntry[] = [
   {

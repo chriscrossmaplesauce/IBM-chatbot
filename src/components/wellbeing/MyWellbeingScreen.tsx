@@ -13,6 +13,7 @@ import {
   clearAllLocalData,
 } from '../../utils/storage';
 import { MOOD_OPTIONS } from '../home/HomeCheckInCard';
+import { MoodTrendsChart } from './MoodTrendsChart';
 
 const PROMPTS = [
   'What felt most demanding today?',
@@ -187,14 +188,17 @@ export const MyWellbeingScreen: React.FC = () => {
       {/* TAB A: MOOD HISTORY */}
       {activeTab === 'moods' && (
         <section aria-labelledby="mood-history-heading" className="space-y-4">
+          {/* Recharts 30-Day Trend Chart */}
+          <MoodTrendsChart entries={moods} />
+
           <div className="bg-white rounded-2xl p-5 sm:p-6 border border-[#E9EEE5] shadow-xs">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
               <div>
                 <h2 id="mood-history-heading" className="text-lg font-bold text-[#293A30]">
-                  Mood History
+                  Check-in Log Entries
                 </h2>
                 <p className="text-xs text-[#687168]">
-                  Descriptive check-in entries across days. Not a diagnostic score.
+                  Detailed daily records with personal notes from your check-ins.
                 </p>
               </div>
 

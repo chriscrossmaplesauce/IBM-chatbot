@@ -25,11 +25,31 @@ export interface JournalEntry {
   updatedAt: number;
 }
 
+export interface GuidedToolRecommendation {
+  category?: string; // e.g. "Guided Interactive Tool"
+  title: string; // e.g. "5-4-3-2-1 Sensory Grounding"
+  description?: string;
+  toolId: string;
+  targetTab?: NavigationTab;
+  buttonLabel?: string;
+}
+
+export interface RelatedGuideRecommendation {
+  title: string; // e.g. "Explore wellbeing strategies for this"
+  subtitle?: string;
+  moduleId?: string;
+  targetTab?: NavigationTab;
+}
+
 export interface ChatMessage {
   id: string;
   sender: 'cara' | 'user';
   text: string;
   timestamp: number;
+  timeFormatted?: string;
+  senderLabel?: string; // e.g. "Haven • 23:05" or "Cara.ai • Guide & Coach"
+  guidedTool?: GuidedToolRecommendation;
+  relatedGuide?: RelatedGuideRecommendation;
   actionButton?: {
     label: string;
     action: string;

@@ -1,7 +1,27 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Send, Sparkles, Shield, ArrowRight, RotateCcw, Compass, Wind, BookOpen, HandHeart } from 'lucide-react';
+import {
+  Send,
+  Sparkles,
+  Shield,
+  ArrowRight,
+  RotateCcw,
+  Compass,
+  Wind,
+  BookOpen,
+  Hand,
+  Clock,
+  SlidersHorizontal,
+  Brain,
+  ChevronRight,
+} from 'lucide-react';
 import { CaraAvatar } from '../common/CaraAvatar';
-import { ChatMessage, MoodType, NavigationTab } from '../../types';
+import {
+  ChatMessage,
+  MoodType,
+  NavigationTab,
+  GuidedToolRecommendation,
+  RelatedGuideRecommendation,
+} from '../../types';
 
 interface CaraChatProps {
   initialMood?: MoodType | null;
@@ -23,6 +43,11 @@ export const CaraChat: React.FC<CaraChatProps> = ({
   const [hasLiveBackend, setHasLiveBackend] = useState<boolean | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
+  const formatCurrentTime = () => {
+    const d = new Date();
+    return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+  };
+
   // Check backend health
   useEffect(() => {
     fetch('/api/health')
@@ -35,60 +60,87 @@ export const CaraChat: React.FC<CaraChatProps> = ({
       });
   }, []);
 
-  // Initialize conversation
+  // Initialize conversation with the Coach & Guide flow
   useEffect(() => {
+    const currentTime = formatCurrentTime();
+
     if (initialMood) {
-      // Custom mood-initiated start
-      const moodReplies: Record<MoodType, { caraIntro: string; question: string; options: string[] }> = {
+      // Mood-aware coach check-in
+      const moodReplies: Record<MoodType, { caraIntro: string; question: string; options: string[]; tool?: GuidedToolRecommendation; guide?: RelatedGuideRecommendation }> = {
         stressed: {
-          caraIntro: `Hello, ${preferredName}. I notice you checked in as feeling stressed today. Thank you for pausing for a moment; school days can be relentlessly intense.`,
-          question: `What feels heaviest right now?`,
+          caraIntro: `Hello, ${preferredName}. I see you're carrying noticeable stress today. School days ask you to absorb so much sensory and emotional stimulation—often without a single quiet moment to decompress.`,
+          question: `I am right here with you—no grading to defend and no expectations. How is your body feeling right now, and what has felt heaviest today?`,
+          tool: {
+            category: 'Guided Interactive Tool',
+            title: 'Box Breathing (4-4-4-4 Reset)',
+            description: 'A 2-minute rhythmic breath to de-escalate physical tension.',
+            toolId: 'breathing',
+            targetTab: 'tools',
+            buttonLabel: 'Start',
+          },
+          guide: {
+            title: 'Related Guide: Explore wellbeing strategies for this',
+            subtitle: 'Stress Management & Nervous System Reset',
+            moduleId: 'mod-stress',
+            targetTab: 'tools',
+          },
           options: [
+            'Need a 2-minute calming breath',
             "There's too much work for the time I have.",
-            "I'm worried my lessons won't be good enough.",
-            "I feel guilty leaving work unfinished.",
+            "I feel like I'm not getting through to my students.",
             "I'm too mentally exhausted to focus.",
-            "Something else.",
           ],
         },
         low: {
-          caraIntro: `Hello, ${preferredName}. I hear you that you're feeling low today. It takes quiet honesty to admit when your tank is running dry.`,
-          question: `What has been draining your energy the most?`,
+          caraIntro: `Hello, ${preferredName}. I hear you that you're feeling low today. It takes courage to admit when your physical or emotional tank is running empty after giving so much to your students.`,
+          question: `Take a gentle breath. What has been pulling your energy down the most?`,
+          tool: {
+            category: 'Guided Interactive Tool',
+            title: '5-4-3-2-1 Sensory Grounding',
+            description: 'Gently reconnect with the physical present.',
+            toolId: 'sensory',
+            targetTab: 'tools',
+            buttonLabel: 'Start',
+          },
+          guide: {
+            title: 'Related Guide: Explore wellbeing strategies for this',
+            subtitle: 'Sustainable Coping for Educators',
+            moduleId: 'mod-resilience',
+            targetTab: 'tools',
+          },
           options: [
-            "Emotional exhaustion from difficult interactions.",
-            "There's too much work for the time I have.",
-            "I feel like I'm letting students or colleagues down.",
-            "I'm too mentally exhausted to focus.",
-            "Something else.",
+            'Need a 2-minute calming breath',
+            "I feel like I'm not getting through to my students.",
+            'I feel guilty leaving work unfinished.',
+            'Just need a quiet moment',
           ],
         },
         okay: {
-          caraIntro: `Hello, ${preferredName}. Getting through an 'okay' day in teaching is still real work. I'm glad you took a second to check in.`,
-          question: `How is your pace feeling as you move through today?`,
+          caraIntro: `Hello, ${preferredName}. Navigating an 'okay' school day still requires enormous mental presence and patient pacing. I'm glad you took two minutes for yourself.`,
+          question: `How is your energy holding up as you head into the rest of your day?`,
           options: [
-            "Steady, but I have a big pile of marking ahead.",
-            "A bit rushed, could use a 2-minute reset.",
-            "I want to plan my tasks so I don't take them home.",
-            "Just checking in; all manageable right now.",
+            'Need a 2-minute calming breath',
+            'Staring at an overwhelming stack of grading',
+            "Plan my tasks so I don't take them home",
+            'Just checking in; all steady right now',
           ],
         },
         good: {
-          caraIntro: `Hello, ${preferredName}! It is really encouraging to hear you're feeling good today. Celebrating steady moments helps anchor our resilience.`,
-          question: `What went well today that helped support your wellbeing?`,
+          caraIntro: `Hello, ${preferredName}! It is wonderful to hear that things feel steady or bright today. Noticing what went well is a genuine practice in teacher resilience.`,
+          question: `What went smoothly today that helped protect your calm?`,
           options: [
-            "Good connection with students today.",
-            "I kept to my finishing time yesterday.",
-            "I want to protect this calm energy.",
-            "Just saving this positive moment.",
+            'Good connection with students today',
+            'I protected my finishing time yesterday',
+            'Explore sustainable habits module',
           ],
         },
         great: {
-          caraIntro: `Hello, ${preferredName}! That's wonderful to hear. Having energised, great days in the classroom is something to savour.`,
-          question: `Would you like to note down what made today feel so positive?`,
+          caraIntro: `Hello, ${preferredName}! That is fantastic to hear. Those energised, flowing days in teaching deserve to be savoured.`,
+          question: `Would you like to note this down in your private journal or enjoy the momentum?`,
           options: [
-            "Write a quick reflection in my journal.",
-            "Explore a module on sustainable habits.",
-            "Just enjoying the momentum!",
+            'Write a quick reflection in my journal',
+            'Explore gratitude micro-moments',
+            'Enjoying the peaceful momentum!',
           ],
         },
       };
@@ -100,59 +152,51 @@ export const CaraChat: React.FC<CaraChatProps> = ({
           sender: 'cara',
           text: selected.caraIntro,
           timestamp: Date.now() - 2000,
+          timeFormatted: currentTime,
+          senderLabel: `Haven • ${currentTime}`,
         },
         {
           id: 'init-2',
           sender: 'cara',
           text: selected.question,
           timestamp: Date.now() - 1000,
+          timeFormatted: currentTime,
+          senderLabel: `Cara.ai • Guide & Coach`,
+          guidedTool: selected.tool,
+          relatedGuide: selected.guide,
           suggestedResponses: selected.options,
         },
       ];
       setMessages(initialMessages);
       setActiveSuggested(selected.options);
     } else {
-      // Default exact initial conversation from Section 6.B
+      // Default Coach Welcome matching user's exact specification
+      const welcomeText = `Hello. I'm Cara.ai, your dedicated, confidential wellbeing space as a public school educator.\n\nWhether you just walked out of a chaotic lesson, are staring at an overwhelming stack of grading, or need a quiet 2-minute reset between bells—I am right here with you. How is your energy feeling right now, and what's on your mind today?`;
+
       const defaultSequence: ChatMessage[] = [
         {
-          id: 'def-1',
+          id: 'def-welcome',
           sender: 'cara',
-          text: `It sounds like you've had a demanding day. What's been the hardest part?`,
-          timestamp: Date.now() - 4000,
-        },
-        {
-          id: 'def-2',
-          sender: 'user',
-          text: `I have so much marking to finish, and I still need to prepare tomorrow's lessons.`,
-          timestamp: Date.now() - 2500,
-        },
-        {
-          id: 'def-3',
-          sender: 'cara',
-          text: `That sounds exhausting, especially when both tasks feel urgent. We don't have to solve everything at once.`,
-          timestamp: Date.now() - 1500,
-        },
-        {
-          id: 'def-4',
-          sender: 'cara',
-          text: `What feels heaviest right now?`,
-          timestamp: Date.now() - 800,
+          text: welcomeText,
+          timestamp: Date.now(),
+          timeFormatted: currentTime,
+          senderLabel: `Haven • ${currentTime}`,
           suggestedResponses: [
-            "There's too much work for the time I have.",
-            "I'm worried my lessons won't be good enough.",
-            "I feel guilty leaving work unfinished.",
-            "I'm too mentally exhausted to focus.",
-            "Something else.",
+            'Need a 2-minute calming breath',
+            "I feel like I'm not getting through to my students. Everything I try seems to fail",
+            'Staring at an overwhelming stack of grading',
+            'Just walked out of a chaotic lesson',
+            'I feel guilty leaving work unfinished',
           ],
         },
       ];
       setMessages(defaultSequence);
       setActiveSuggested([
-        "There's too much work for the time I have.",
-        "I'm worried my lessons won't be good enough.",
-        "I feel guilty leaving work unfinished.",
-        "I'm too mentally exhausted to focus.",
-        "Something else.",
+        'Need a 2-minute calming breath',
+        "I feel like I'm not getting through to my students. Everything I try seems to fail",
+        'Staring at an overwhelming stack of grading',
+        'Just walked out of a chaotic lesson',
+        'I feel guilty leaving work unfinished',
       ]);
     }
   }, [initialMood, preferredName]);
@@ -162,102 +206,197 @@ export const CaraChat: React.FC<CaraChatProps> = ({
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, isLoading]);
 
-  // Branching deterministic logic matching Section 6.C
-  const handleBranchingResponse = (userText: string) => {
+  // Deep coaching responses matching user's exact examples
+  const getCoachResponse = (userText: string) => {
     const lower = userText.toLowerCase();
 
-    if (lower.includes('too much work') || lower.includes('time i have')) {
+    // 1. Need a 2-minute calming breath
+    if (lower.includes('calming breath') || lower.includes('2-minute') || lower.includes('breathe') || lower.includes('reset between bells')) {
       return {
-        reply: `I hear you. The sheer volume of assessment and preparation can feel impossible within standard school hours. When everything screams for attention, our nervous systems stay on high alert.\n\nLet's apply the 80% rule: what must genuinely be completed today for students to learn safely tomorrow, and what can be simplified or delayed?`,
-        actionButton: {
-          label: 'Open Workload Triage',
-          action: 'open_triage',
-          targetTab: 'tools' as NavigationTab,
-          toolId: 'triage',
-        },
-        suggestions: [
-          'Help me separate urgent tasks',
-          'Tell me more about the 80% rule',
-          'I want to try a 3-minute reset first',
-        ],
-      };
-    }
-
-    if (lower.includes("won't be good enough") || lower.includes('good enough') || lower.includes('lesson')) {
-      return {
-        reply: `That worry is so common among conscientious teachers. You care deeply about your students, but aiming for perfection on every lesson plan is an unsustainable standard.\n\nMost students thrive on clarity and your calm presence, not overly elaborate slide decks or endless props. Can we strip tomorrow's lesson down to its single essential learning objective?`,
-        actionButton: {
-          label: 'Try Thought Reframe',
-          action: 'open_reframe',
-          targetTab: 'tools' as NavigationTab,
-          toolId: 'reframe',
-        },
-        suggestions: [
-          'What is one essential objective?',
-          'Open Workload Triage',
-          'I feel guilty doing only the basics',
-        ],
-      };
-    }
-
-    if (lower.includes('guilt') || lower.includes('unfinished')) {
-      return {
-        reply: `That guilt is heavy, but remember: leaving unfinished work at school is a sign of healthy human boundaries, not a lack of commitment.\n\nThe school system will always ask for 100% of whatever time you offer it. Leaving on time protects your ability to teach sustainably for years to come.`,
-        actionButton: {
-          label: 'Explore Work-Life Boundaries Module',
-          action: 'open_boundaries',
-          targetTab: 'tools' as NavigationTab,
-          toolId: 'module-boundaries',
-        },
-        suggestions: [
-          'How do I let go of the guilt tonight?',
-          'Write a private reflection',
-          'What can wait until tomorrow?',
-        ],
-      };
-    }
-
-    if (lower.includes('mentally exhausted') || lower.includes('exhausted') || lower.includes('tired') || lower.includes('focus')) {
-      return {
-        reply: `When your brain and nervous system are completely depleted, trying to force lesson planning or marking usually takes triple the effort and brings tears of frustration.\n\nLet's step away from decision-making for just a few minutes. Would you be open to a gentle 3-minute calming breath or sensory reset?`,
-        actionButton: {
-          label: 'Try Box Breathing (3 min)',
-          action: 'open_breathing',
-          targetTab: 'tools' as NavigationTab,
+        reply: `Teaching asks you to give so much of your heart, focus, and energy from the moment the morning bell rings. I am here with you right now—no grading, no lesson plans to justify, and no expectations.\n\nHow is your body feeling right now, and what has felt heaviest today?`,
+        guidedTool: {
+          category: 'Guided Interactive Tool',
+          title: 'Box Breathing (4-4-4-4 Reset)',
+          description: 'Four gentle rounds to steady your nervous system.',
           toolId: 'breathing',
+          targetTab: 'tools' as NavigationTab,
+          buttonLabel: 'Start',
+        },
+        relatedGuide: {
+          title: 'Related Guide: Explore wellbeing strategies for this',
+          subtitle: 'Stress Management & Nervous System Reset',
+          moduleId: 'mod-stress',
+          targetTab: 'tools' as NavigationTab,
         },
         suggestions: [
-          'Start Box Breathing',
-          'Try 5-4-3-2-1 Grounding',
-          'I need to talk to a person',
+          'Start Box Breathing reset',
+          "I feel like I'm not getting through to my students.",
+          'My grading pile is out of control',
+          'Read Classroom Reset Tips',
         ],
       };
     }
 
-    if (lower.includes('talk to a person') || lower.includes('human') || lower.includes('help me') || lower.includes('crying') || lower.includes('break down')) {
+    // 2. "I feel like I'm not getting through to my students. Everything I try seems to fail"
+    if (
+      lower.includes('not getting through') ||
+      lower.includes('everything i try seems to fail') ||
+      lower.includes('fail') ||
+      lower.includes('dysregulation') ||
+      lower.includes('chaotic')
+    ) {
       return {
-        reply: `I want to remind you that you don't have to carry this alone. Cara is here for quick self-reflection, but when things feel too heavy, connecting with real human support makes all the difference.`,
-        actionButton: {
-          label: 'Explore Professional & Helpline Support',
-          action: 'open_support',
-          targetTab: 'support' as NavigationTab,
+        reply: `Classroom dysregulation is profoundly draining. You are holding the energy and nervous systems of 25 to 35 young people all day long while managing your own.\n\nWhen a lesson derails or behavior flares, your body registers it as physical stress. Take a soft breath. You are one caring person holding a large room; one rough period does not define your worth or skill as an educator.`,
+        guidedTool: {
+          category: 'Guided Interactive Tool',
+          title: '5-4-3-2-1 Sensory Grounding',
+          description: 'Anchor yourself in the room before your next interaction.',
+          toolId: 'sensory',
+          targetTab: 'tools' as NavigationTab,
+          buttonLabel: 'Start',
+        },
+        relatedGuide: {
+          title: 'Related Guide: Explore wellbeing strategies for this',
+          subtitle: 'Emotional Regulation in High-Stress Moments',
+          moduleId: 'mod-regulation',
+          targetTab: 'tools' as NavigationTab,
         },
         suggestions: [
-          'Show crisis & confidential helplines',
-          'Message an EAP professional',
-          'Take a deep breath with me',
+          'Start 5-4-3-2-1 Sensory Grounding',
+          'Do a quick Box Breathing reset',
+          'Read Classroom Reset Tips',
+          'What can I do for tomorrow’s lesson?',
         ],
       };
     }
 
-    // Default supportive response
+    // 3. Staring at overwhelming grading / too much work
+    if (lower.includes('grading') || lower.includes('marking') || lower.includes('too much work') || lower.includes('time i have')) {
+      return {
+        reply: `Staring at a towering stack of exercise books can trigger instant exhaustion. When grading feels endless, our instinct is to sacrifice sleep or evenings.\n\nRemember the 80% rule: aim for feedback that is fit-for-purpose rather than perfectionism. You do not need to mark every single question with paragraph-long notes to deliver real learning value. What is the single most essential task in that pile today?`,
+        guidedTool: {
+          category: 'Guided Interactive Tool',
+          title: 'Workload Triage (80% Rule Heuristic)',
+          description: 'Separate urgent essentials from tasks that can wait or be simplified.',
+          toolId: 'triage',
+          targetTab: 'tools' as NavigationTab,
+          buttonLabel: 'Start',
+        },
+        relatedGuide: {
+          title: 'Related Guide: Explore wellbeing strategies for this',
+          subtitle: 'Work-Life Boundaries & Guilt-Free Rest',
+          moduleId: 'mod-boundaries',
+          targetTab: 'tools' as NavigationTab,
+        },
+        suggestions: [
+          'Open Workload Triage',
+          'How do I let go of the guilt tonight?',
+          'Need a 2-minute calming breath',
+          'I want to write this in my journal',
+        ],
+      };
+    }
+
+    // 4. Guilt about leaving work unfinished
+    if (lower.includes('guilt') || lower.includes('unfinished') || lower.includes('leaving')) {
+      return {
+        reply: `That guilt is heavy, but remember: leaving unfinished work at school is a sign of healthy human boundaries, not a failure of dedication.\n\nTeaching is an infinite profession: there will always be another rubric to tweak or a slide to refine. Packing up at the end of the school day protects the energy you need to stand before your students tomorrow.`,
+        guidedTool: {
+          category: 'Guided Interactive Tool',
+          title: 'Workload Triage (What Can Wait)',
+          description: 'Set explicit permissions on what waits until tomorrow.',
+          toolId: 'triage',
+          targetTab: 'tools' as NavigationTab,
+          buttonLabel: 'Start',
+        },
+        relatedGuide: {
+          title: 'Related Guide: Explore wellbeing strategies for this',
+          subtitle: 'Work-Life Boundaries & Saying No',
+          moduleId: 'mod-boundaries',
+          targetTab: 'tools' as NavigationTab,
+        },
+        suggestions: [
+          'Explore boundaries module',
+          'Write a private reflection',
+          'Need a 2-minute calming breath',
+        ],
+      };
+    }
+
+    // 5. Worry lessons won't be good enough
+    if (lower.includes('good enough') || lower.includes("won't be good") || lower.includes('imposter')) {
+      return {
+        reply: `That worry shows how deeply you care, but aiming for perfection on every lesson plan is an unsustainable standard.\n\nStudents rarely remember the perfection of your slide transitions; they remember your patience, clarity, and presence. Can we strip tomorrow’s lesson down to its single essential learning objective?`,
+        guidedTool: {
+          category: 'Guided Interactive Tool',
+          title: 'Thought Reframe Wizard',
+          description: 'Challenge the inner critic demanding perfection.',
+          toolId: 'reframe',
+          targetTab: 'tools' as NavigationTab,
+          buttonLabel: 'Start',
+        },
+        relatedGuide: {
+          title: 'Related Guide: Explore wellbeing strategies for this',
+          subtitle: 'Mindfulness for the Classroom',
+          moduleId: 'mod-mindfulness',
+          targetTab: 'tools' as NavigationTab,
+        },
+        suggestions: [
+          'Start Thought Reframe',
+          'Focus on one essential objective',
+          'Need a 2-minute calming breath',
+        ],
+      };
+    }
+
+    // 6. Mentally exhausted
+    if (lower.includes('exhausted') || lower.includes('tired') || lower.includes('drained') || lower.includes('focus')) {
+      return {
+        reply: `When your nervous system is depleted, trying to push through more administrative planning usually brings frustration and tears.\n\nYou have permission to pause. Even 3 minutes of somatic quiet can take you out of fight-or-flight mode. Let's rest your mind right now.`,
+        guidedTool: {
+          category: 'Guided Interactive Tool',
+          title: 'Progressive Muscle Relaxation',
+          description: 'Release accumulated tension in your shoulders, jaw, and neck.',
+          toolId: 'muscle',
+          targetTab: 'tools' as NavigationTab,
+          buttonLabel: 'Start',
+        },
+        relatedGuide: {
+          title: 'Related Guide: Explore wellbeing strategies for this',
+          subtitle: 'Sleep and Recovery for Educators',
+          moduleId: 'mod-sleep',
+          targetTab: 'tools' as NavigationTab,
+        },
+        suggestions: [
+          'Start Progressive Muscle Relaxation',
+          'Do a quick Box Breathing reset',
+          'Explore support directory',
+        ],
+      };
+    }
+
+    // Default supportive coaching response
     return {
-      reply: `Thank you for sharing that with me, ${preferredName}. Acknowledging what is going on inside is often the first step in de-escalating the internal pressure.\n\nTake a slow breath. If you could give yourself permission to let go of just one expectation this evening, what would it be?`,
+      reply: `Thank you for sharing that with me, ${preferredName}. Acknowledging what is happening inside is the first compassionate step in de-escalating the day's pressure.\n\nTake a slow breath. If you could give yourself permission to step back from just one expectation right now, what would feel most relieving?`,
+      guidedTool: {
+        category: 'Guided Interactive Tool',
+        title: '5-4-3-2-1 Sensory Grounding',
+        description: 'Anchor yourself in the room and catch your breath.',
+        toolId: 'sensory',
+        targetTab: 'tools' as NavigationTab,
+        buttonLabel: 'Start',
+      },
+      relatedGuide: {
+        title: 'Related Guide: Explore wellbeing strategies for this',
+        subtitle: 'Classroom & Teacher Reset Tips',
+        moduleId: 'mod-mindfulness',
+        targetTab: 'tools' as NavigationTab,
+      },
       suggestions: [
+        'Need a 2-minute calming breath',
         'Open Workload Triage',
-        'Take a 3-minute breathing reset',
-        'Write this down in my journal',
-        'Something else',
+        'Read Classroom Reset Tips',
+        'Write this in my private journal',
       ],
     };
   };
@@ -266,11 +405,33 @@ export const CaraChat: React.FC<CaraChatProps> = ({
     const text = (textToSend || inputText).trim();
     if (!text || isLoading) return;
 
+    // Check if the user clicked "Read Classroom Reset Tips" or "Start Box Breathing reset", etc.
+    const lower = text.toLowerCase();
+    if (lower === 'read classroom reset tips') {
+      onNavigate('tools', { toolId: 'mod-regulation' });
+      return;
+    }
+    if (lower === 'start 5-4-3-2-1 sensory grounding') {
+      onNavigate('tools', { toolId: 'sensory' });
+      return;
+    }
+    if (lower === 'do a quick box breathing reset' || lower === 'start box breathing reset') {
+      onNavigate('tools', { toolId: 'breathing' });
+      return;
+    }
+    if (lower === 'open workload triage') {
+      onNavigate('tools', { toolId: 'triage' });
+      return;
+    }
+
+    const currentTime = formatCurrentTime();
     const userMsg: ChatMessage = {
       id: 'usr-' + Date.now(),
       sender: 'user',
       text,
       timestamp: Date.now(),
+      timeFormatted: currentTime,
+      senderLabel: `You • ${currentTime}`,
     };
 
     setMessages((prev) => [...prev, userMsg]);
@@ -292,14 +453,33 @@ export const CaraChat: React.FC<CaraChatProps> = ({
         if (response.ok) {
           const data = await response.json();
           let replyText = data.reply || '';
+          let parsedTool: GuidedToolRecommendation | undefined;
+          let parsedGuide: RelatedGuideRecommendation | undefined;
           let parsedSuggestions: string[] | undefined;
 
-          // Parse optional suggestions format <<<SUGGESTIONS: [...]>>>
-          const suggestionMatch = replyText.match(/<<<SUGGESTIONS:\s*(\[.*?\])\s*>>>/s);
-          if (suggestionMatch) {
+          // Parse metadata block <<<COACH_META: {...}>>>
+          const metaMatch = replyText.match(/<<<COACH_META:\s*(\{.*?\})\s*>>>/s);
+          if (metaMatch) {
             try {
-              parsedSuggestions = JSON.parse(suggestionMatch[1]);
-              replyText = replyText.replace(/<<<SUGGESTIONS:\s*\[.*?\]\s*>>>/s, '').trim();
+              const metaObj = JSON.parse(metaMatch[1]);
+              parsedTool = metaObj.guidedTool
+                ? {
+                    category: 'Guided Interactive Tool',
+                    title: metaObj.guidedTool.title || 'Interactive Wellbeing Tool',
+                    toolId: metaObj.guidedTool.toolId || 'sensory',
+                    targetTab: 'tools',
+                    buttonLabel: metaObj.guidedTool.buttonLabel || 'Start',
+                  }
+                : undefined;
+              parsedGuide = metaObj.relatedGuide
+                ? {
+                    title: metaObj.relatedGuide.title || 'Related Guide: Explore wellbeing strategies for this',
+                    moduleId: metaObj.relatedGuide.moduleId || 'mod-regulation',
+                    targetTab: 'tools',
+                  }
+                : undefined;
+              parsedSuggestions = metaObj.suggestions;
+              replyText = replyText.replace(/<<<COACH_META:\s*\{.*?\}\s*>>>/s, '').trim();
             } catch {
               // ignore parse fail
             }
@@ -310,10 +490,14 @@ export const CaraChat: React.FC<CaraChatProps> = ({
             sender: 'cara',
             text: replyText,
             timestamp: Date.now(),
+            timeFormatted: formatCurrentTime(),
+            senderLabel: `Cara.ai • Guide & Coach • ${formatCurrentTime()}`,
+            guidedTool: parsedTool,
+            relatedGuide: parsedGuide,
             suggestedResponses: parsedSuggestions || [
-              'Open Workload Triage',
-              'Try a calming breath',
-              'Tell me more',
+              'Start 5-4-3-2-1 Sensory Grounding',
+              'Do a quick Box Breathing reset',
+              'Read Classroom Reset Tips',
             ],
           };
 
@@ -327,46 +511,53 @@ export const CaraChat: React.FC<CaraChatProps> = ({
       }
     }
 
-    // Deterministic Branching Fallback
+    // Empathetic Guide & Coach Branching Fallback
     setTimeout(() => {
-      const branchResult = handleBranchingResponse(text);
+      const coachData = getCoachResponse(text);
+      const resTime = formatCurrentTime();
+
       const caraMsg: ChatMessage = {
         id: 'cara-' + Date.now(),
         sender: 'cara',
-        text: branchResult.reply,
+        text: coachData.reply,
         timestamp: Date.now(),
-        actionButton: branchResult.actionButton,
-        suggestedResponses: branchResult.suggestions,
+        timeFormatted: resTime,
+        senderLabel: `Cara.ai • Guide & Coach • ${resTime}`,
+        guidedTool: coachData.guidedTool,
+        relatedGuide: coachData.relatedGuide,
+        suggestedResponses: coachData.suggestions,
       };
 
       setMessages((prev) => [...prev, caraMsg]);
-      setActiveSuggested(branchResult.suggestions || []);
+      setActiveSuggested(coachData.suggestions || []);
       setIsLoading(false);
-    }, 600);
+    }, 500);
   };
 
   const handleResetConversation = () => {
-    setMessages([
-      {
-        id: 'reset-1',
-        sender: 'cara',
-        text: `Welcome back, ${preferredName}. I'm here whenever you need a mindful pause. How are things feeling right now?`,
-        timestamp: Date.now(),
-        suggestedResponses: [
-          "There's too much work for the time I have.",
-          "I'm worried my lessons won't be good enough.",
-          "I feel guilty leaving work unfinished.",
-          "I'm too mentally exhausted to focus.",
-          "Something else.",
-        ],
-      },
-    ]);
+    const curTime = formatCurrentTime();
+    const resetMsg: ChatMessage = {
+      id: 'reset-1',
+      sender: 'cara',
+      text: `Welcome back, ${preferredName}. I am right here with you—no grading, no lesson plans to justify, and no expectations.\n\nHow is your energy feeling right now, and what's on your mind today?`,
+      timestamp: Date.now(),
+      timeFormatted: curTime,
+      senderLabel: `Haven • ${curTime}`,
+      suggestedResponses: [
+        'Need a 2-minute calming breath',
+        "I feel like I'm not getting through to my students. Everything I try seems to fail",
+        'Staring at an overwhelming stack of grading',
+        'Just walked out of a chaotic lesson',
+        'I feel guilty leaving work unfinished',
+      ],
+    };
+    setMessages([resetMsg]);
     setActiveSuggested([
-      "There's too much work for the time I have.",
-      "I'm worried my lessons won't be good enough.",
-      "I feel guilty leaving work unfinished.",
-      "I'm too mentally exhausted to focus.",
-      "Something else.",
+      'Need a 2-minute calming breath',
+      "I feel like I'm not getting through to my students. Everything I try seems to fail",
+      'Staring at an overwhelming stack of grading',
+      'Just walked out of a chaotic lesson',
+      'I feel guilty leaving work unfinished',
     ]);
   };
 
@@ -380,11 +571,12 @@ export const CaraChat: React.FC<CaraChatProps> = ({
             <div className="flex items-center gap-2">
               <h2 className="text-base font-bold text-[#293A30]">Cara.ai</h2>
               <span className="text-[10px] font-semibold tracking-wide uppercase px-2 py-0.5 rounded-full bg-white text-[#58715B] border border-[#DCE4D6]">
-                AI support, not therapy
+                Guide & Coach
               </span>
             </div>
             <p className="text-xs text-[#687168]">
-              Your Support Guide &bull; {hasLiveBackend ? 'Live Gemini Connected' : 'Guided Practice Mode'}
+              Your Dedicated Wellbeing Space &bull;{' '}
+              {hasLiveBackend ? 'Live Gemini Connected' : 'Empathetic Practice Mode'}
             </p>
           </div>
         </div>
@@ -423,34 +615,118 @@ export const CaraChat: React.FC<CaraChatProps> = ({
             >
               {isCara && <CaraAvatar size="xs" className="mt-1" />}
 
-              <div
-                className={`max-w-[85%] sm:max-w-[75%] rounded-2xl p-3.5 sm:p-4 text-sm leading-relaxed ${
-                  isCara
-                    ? 'bg-white border border-[#E9EEE5] text-[#293A30] shadow-xs'
-                    : 'bg-[#58715B] text-white shadow-xs rounded-tr-xs'
-                }`}
-              >
-                <div className="whitespace-pre-wrap">{msg.text}</div>
+              <div className="max-w-[88%] sm:max-w-[80%] flex flex-col">
+                {/* Sender label and timestamp */}
+                <div
+                  className={`text-[10px] text-[#687168] mb-1 px-1 flex items-center gap-1.5 ${
+                    isCara ? 'justify-start' : 'justify-end'
+                  }`}
+                >
+                  <Clock size={10} className="opacity-70" />
+                  <span>{msg.senderLabel || (isCara ? 'Haven' : 'Teacher')}</span>
+                </div>
 
-                {/* Direct Action Button in message */}
-                {msg.actionButton && (
-                  <div className="mt-3 pt-2.5 border-t border-[#E9EEE5]">
-                    <button
-                      type="button"
-                      onClick={() => {
-                        if (msg.actionButton?.targetTab) {
-                          onNavigate(msg.actionButton.targetTab, {
-                            toolId: msg.actionButton.toolId,
-                          });
-                        }
-                      }}
-                      className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#E9EEE5] hover:bg-[#DCE4D6] text-[#293A30] text-xs font-semibold shadow-2xs transition-all duration-150 group"
-                    >
-                      <span>{msg.actionButton.label}</span>
-                      <ArrowRight size={14} className="text-[#58715B] group-hover:translate-x-0.5 transition-transform" />
-                    </button>
-                  </div>
-                )}
+                {/* Main bubble */}
+                <div
+                  className={`rounded-2xl p-4 text-sm leading-relaxed ${
+                    isCara
+                      ? 'bg-white border border-[#E9EEE5] text-[#293A30] shadow-xs'
+                      : 'bg-[#58715B] text-white shadow-xs rounded-tr-xs'
+                  }`}
+                >
+                  <div className="whitespace-pre-wrap">{msg.text}</div>
+
+                  {/* Guided Interactive Tool Card (Section matching user specification) */}
+                  {msg.guidedTool && (
+                    <div className="mt-3.5 pt-3 border-t border-[#E9EEE5]">
+                      <div className="bg-[#F7F5EF] rounded-xl p-3 border border-[#DCE4D6] flex items-center justify-between gap-3">
+                        <div className="flex-1 min-w-0">
+                          <span className="text-[10px] font-bold uppercase tracking-wider text-[#58715B] block mb-0.5">
+                            {msg.guidedTool.category || 'Guided Interactive Tool'}
+                          </span>
+                          <h4 className="text-xs sm:text-sm font-bold text-[#293A30] truncate">
+                            {msg.guidedTool.title}
+                          </h4>
+                          {msg.guidedTool.description && (
+                            <p className="text-[11px] text-[#687168] line-clamp-1 mt-0.5">
+                              {msg.guidedTool.description}
+                            </p>
+                          )}
+                        </div>
+
+                        <button
+                          type="button"
+                          onClick={() => {
+                            if (msg.guidedTool?.targetTab) {
+                              onNavigate(msg.guidedTool.targetTab, {
+                                toolId: msg.guidedTool.toolId,
+                              });
+                            }
+                          }}
+                          className="px-4 py-2 bg-[#58715B] hover:bg-[#485e4b] active:scale-95 text-white text-xs font-bold rounded-xl shadow-xs transition-all shrink-0 flex items-center gap-1.5"
+                        >
+                          <span>{msg.guidedTool.buttonLabel || 'Start'}</span>
+                          <ArrowRight size={13} />
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Related Guide Link Card */}
+                  {msg.relatedGuide && (
+                    <div className="mt-2.5">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (msg.relatedGuide?.targetTab) {
+                            onNavigate(msg.relatedGuide.targetTab, {
+                              toolId: msg.relatedGuide.moduleId || 'modules',
+                            });
+                          }
+                        }}
+                        className="w-full flex items-center justify-between p-2.5 rounded-xl bg-white hover:bg-[#F4F7F2] border border-[#DCE4D6] text-left transition-colors group"
+                      >
+                        <div className="flex items-center gap-2 min-w-0">
+                          <BookOpen size={14} className="text-[#58715B] shrink-0" />
+                          <div className="min-w-0">
+                            <span className="text-xs font-semibold text-[#58715B] group-hover:underline block truncate">
+                              {msg.relatedGuide.title}
+                            </span>
+                            {msg.relatedGuide.subtitle && (
+                              <span className="text-[10px] text-[#687168] block truncate">
+                                {msg.relatedGuide.subtitle}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                        <ChevronRight
+                          size={15}
+                          className="text-[#687168] group-hover:text-[#58715B] group-hover:translate-x-0.5 transition-transform shrink-0"
+                        />
+                      </button>
+                    </div>
+                  )}
+
+                  {/* Legacy Action button if provided */}
+                  {msg.actionButton && !msg.guidedTool && (
+                    <div className="mt-3 pt-2.5 border-t border-[#E9EEE5]">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (msg.actionButton?.targetTab) {
+                            onNavigate(msg.actionButton.targetTab, {
+                              toolId: msg.actionButton.toolId,
+                            });
+                          }
+                        }}
+                        className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#E9EEE5] hover:bg-[#DCE4D6] text-[#293A30] text-xs font-semibold shadow-2xs transition-all duration-150 group"
+                      >
+                        <span>{msg.actionButton.label}</span>
+                        <ArrowRight size={14} className="text-[#58715B] group-hover:translate-x-0.5 transition-transform" />
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           );
@@ -463,7 +739,7 @@ export const CaraChat: React.FC<CaraChatProps> = ({
               <span className="w-2 h-2 rounded-full bg-[#58715B] animate-bounce" />
               <span className="w-2 h-2 rounded-full bg-[#58715B] animate-bounce [animation-delay:0.2s]" />
               <span className="w-2 h-2 rounded-full bg-[#58715B] animate-bounce [animation-delay:0.4s]" />
-              <span className="text-xs text-[#687168] ml-1">Cara is thinking...</span>
+              <span className="text-xs text-[#687168] ml-1">Cara is reflecting with you...</span>
             </div>
           </div>
         )}
@@ -476,7 +752,7 @@ export const CaraChat: React.FC<CaraChatProps> = ({
         <div className="px-4 py-2.5 bg-white border-t border-[#E9EEE5]/80 overflow-x-auto scrollbar-none">
           <div className="flex items-center gap-1.5 text-[11px] font-semibold text-[#687168] mb-1.5">
             <Sparkles size={12} className="text-[#58715B]" />
-            <span>Suggested replies:</span>
+            <span>Suggested replies & guides:</span>
           </div>
           <div className="flex flex-wrap gap-1.5">
             {activeSuggested.map((option, idx) => (
@@ -484,7 +760,7 @@ export const CaraChat: React.FC<CaraChatProps> = ({
                 key={idx}
                 type="button"
                 onClick={() => handleSendMessage(option)}
-                className="text-xs px-3 py-1.5 rounded-full bg-[#F4F7F2] hover:bg-[#E9EEE5] text-[#293A30] border border-[#DCE4D6] transition-all hover:scale-[1.02] text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-[#58715B]"
+                className="text-xs px-3 py-1.5 rounded-full bg-[#F4F7F2] hover:bg-[#E9EEE5] text-[#293A30] border border-[#DCE4D6] transition-all hover:scale-[1.01] active:scale-95 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-[#58715B]"
               >
                 {option}
               </button>
@@ -509,7 +785,7 @@ export const CaraChat: React.FC<CaraChatProps> = ({
           type="text"
           value={inputText}
           onChange={(e) => setInputText(e.target.value)}
-          placeholder="Type what's on your mind or pick a reply..."
+          placeholder="Share what is on your mind or choose a prompt..."
           className="flex-1 bg-[#F7F5EF] rounded-xl px-4 py-2.5 text-sm text-[#293A30] placeholder-[#687168] border border-transparent focus:border-[#58715B] focus:bg-white focus:outline-none transition-colors"
         />
         <button

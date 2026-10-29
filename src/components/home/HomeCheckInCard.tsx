@@ -40,13 +40,13 @@ export const HomeCheckInCard: React.FC<HomeCheckInCardProps> = ({
         <div className="flex-1">
           <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/70 text-[#58715B] text-xs font-medium mb-1">
             <Sparkles size={12} />
-            <span>Cara.ai Companion</span>
+            <span>Cara.ai Guide & Coach</span>
           </div>
           <h1 id="checkin-heading" className="text-xl sm:text-2xl font-bold text-[#293A30]">
             Hello, {preferredName}!
           </h1>
           <p className="text-sm text-[#4F5B50] mt-0.5 leading-relaxed">
-            I'm Cara.ai. I'm here to listen and help you find a manageable next step.
+            I'm Cara.ai, your confidential wellbeing space. I'm here to listen, guide, and help you find a calm next step.
           </p>
         </div>
       </div>
@@ -113,7 +113,7 @@ export const HomeCheckInCard: React.FC<HomeCheckInCardProps> = ({
               onClick={() => onStartCheckIn()}
               className="px-3 py-2 text-xs text-[#58715B] hover:text-[#293A30] underline underline-offset-4 text-center font-medium transition-colors"
             >
-              Just talk to Cara without selecting
+              Talk to Cara without selecting
             </button>
           )}
         </div>
